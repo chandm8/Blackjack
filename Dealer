@@ -1,0 +1,32 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+public class Dealer {
+
+	private ArrayList<Card> deck;
+	
+	public Dealer(ArrayList<Card> deck) {
+		
+		this.deck = deck;
+		shuffle();
+	}
+	
+	public void shuffle() {
+		
+		Random rand = new Random();
+		ArrayList<Card> tempDeck = new ArrayList<Card>();
+		
+		while (!deck.isEmpty()) {
+			int index = rand.nextInt(deck.size());
+			tempDeck.add(deck.get(index));
+			deck.remove(index);
+		}
+		deck = tempDeck;
+	}
+	
+	public void deal() {
+		
+		Card dealtCard = deck.remove(0);
+		System.out.println(dealtCard.toString());
+	}
+}
