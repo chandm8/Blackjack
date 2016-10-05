@@ -1,3 +1,4 @@
+
 public class Card {
 
 	private Suit suit;
@@ -30,14 +31,32 @@ public class Card {
 		return num;
 	}
 	
+	/**
+	 * Returns a String representation of the Card
+	 * @return The String representation of the Card, containing information
+	 *         about the Card's suit and rank
+	 */
 	public String toString() {
 		
 		StringBuilder stringNum = new StringBuilder();
 		switch(num) {
 		case 1:
 			stringNum.append("Ace");
-			
+			break;
+		case 11:
+			stringNum.append("Jack");
+			break;
+		case 12:
+			stringNum.append("Queen");
+			break;
+		case 13:
+			stringNum.append("King");
+			break;
+		default:
+			stringNum.append(num);
 		}
-		return num + " of " + suit.toString();
+		stringNum.append(" of ");
+		stringNum.append(suit.toString());
+		return stringNum.toString();
 	}
 }
