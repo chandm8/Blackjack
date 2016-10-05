@@ -1,0 +1,43 @@
+public class Card {
+
+	private Suit suit;
+	private int num;
+	
+	/**
+	 * Constructs a card
+	 * @param suit    The suit of the card
+	 * @param num     The number of the card
+	 */
+	public Card(Suit suit, int num) {
+		this.suit = suit;
+		this.num = num;
+		
+	}
+	
+	/**
+	 * Returns the suit of the card
+	 * @return The suit of the card
+	 */
+	public Suit getSuit() {
+		return suit;
+	}
+	
+	/**
+	 * Returns the number of the card
+	 * @return The number of the card
+	 */
+	public int getNumber() {
+		return num;
+	}
+	
+	public String toString() {
+		
+		StringBuilder stringNum = new StringBuilder();
+		switch(num) {
+		case 1:
+			stringNum.append("Ace");
+			
+		}
+		return num + " of " + suit.toString();
+	}
+}
