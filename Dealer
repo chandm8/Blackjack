@@ -1,32 +1,137 @@
+package blackjack;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The Dealer class represents the dealer that the player is competing against.
+ * The Dealer shuffles the cards and deals out cards to the player and himself.
+ * @author Chandler Manns
+ * @version 10/3/16
+ */
 public class Dealer {
 
-	private ArrayList<Card> deck;
-	
-	public Dealer(ArrayList<Card> deck) {
-		
-		this.deck = deck;
-		shuffle();
-	}
-	
-	public void shuffle() {
-		
-		Random rand = new Random();
-		ArrayList<Card> tempDeck = new ArrayList<Card>();
-		
-		while (!deck.isEmpty()) {
-			int index = rand.nextInt(deck.size());
-			tempDeck.add(deck.get(index));
-			deck.remove(index);
-		}
-		deck = tempDeck;
-	}
-	
-	public void deal() {
-		
-		Card dealtCard = deck.remove(0);
-		System.out.println(dealtCard.toString());
-	}
+    private ArrayList<Card> deck;
+    private ArrayList<Card> dealerDeck;
+    private int dealerTotal;
+    private Card dealerCard;
+    private int aceCounter;
+    
+    /**
+     * Contructs a new dealer that takes in a complete deck of cards and the
+     * dealer's deck (or "hand"). Also initializes the Dealer's current total
+     * and current card along with a counter of the Dealer's aces before
+     * shuffling the complete deck of cards
+     * @param deck          The complete deck of cards
+     * @param dealerDeck    The dealer's deck of cards (or "hand")
+     */
+    public Dealer(ArrayList<Card> deck, ArrayList<Card> dealerDeck) {
+        
+        this.deck = deck;
+        this.dealerDeck = dealerDeck;
+        dealerCard = null;
+        dealerTotal = 0;
+        aceCounter = 0;
+        shuffle();
+    }
+    
+    /**
+     * Randomly shuffles the complete deck of cards
+     */
+    public void shuffle() {
+        
+        Random rand = new Random();
+        ArrayList<Card> tempDeck = new ArrayList<Card>();
+        
+        while (!deck.isEmpty()) {
+            int index = rand.nextInt(deck.size());
+            tempDeck.add(deck.get(index));
+            deck.remove(index);
+        }
+        deck = tempDeck;
+    }
+    
+    /**
+     * Deals out a card to either the dealer or the player.
+     * @return the card the was dealt
+     */
+    public Card deal() {
+        
+        Card dealtCard = deck.remove(0);
+        return dealtCard;
+    }
+    
+    /**
+     * Calculates the amount of points from a dealt card and updates the total.
+     */
+    public void calculateTotal() {
+        
+        //If the card is an ACE
+        if (dealerCard.getNumber() == 1) {
+            
+            aceCounter++;
+            dealerTotal += 11;
+        }
+        //If the card is a JACK, QUEEN, or KING
+        else if (dealerCard.getNumber() > 10) {
+            
+            dealerTotal += 10;
+        }
+        //If the number on the card is 2-10
+        else {
+            dealerTotal += dealerCard.getNumber();
+        }
+    }
+    
+    /**
+     * Returns the Dealer's total.
+     * @return the Dealer's current total amount of points.
+     */
+    public int getDealerTotal() {
+        
+        return dealerTotal;
+    }
+    
+    /**
+     * Displays a String representation of the Dealer's total
+     */
+    public void displayDealerTotal() {
+        
+        System.out.println("The Dealer's total is " + dealerTotal + "\n");
+    }
+    
+    /**
+     * Returns the Dealer's "hand"
+     * @return the Dealer's deck of cards, or "hand"
+     */
+    public ArrayList<Card> getHand() {
+        return dealerDeck;
+    }
+    
+    /**
+     * Sets the dealer's total to a new total (used for testing)
+     * @param newTotal    The dealer's new total
+     */
+    public void setDealerTotal(int newTotal) {
+        dealerTotal = newTotal;
+    }
+    
+    /**
+     * Deals out a card to the Dealer and adds it to their hand. Also summons
+     * the calculateTotal() method to update the total and outputs a String
+     * representation of the card that was dealt. Pays special attention if an
+     * ace was dealt the dealer, such that if the dealer's total went over 21
+     * and the dealer was dealt an ace, the ace's value changes from 11 to 1.
+     * @param dealerDeck    The Dealer's hand
+     */
+    public void addCard(ArrayList<Card> dealerDeck) {
+        
+        dealerCard = deal();
+        calculateTotal();
+        if (dealerTotal > 21 && aceCounter > 0) {
+            dealerTotal -= 10;
+            aceCounter--;
+        }
+        System.out.println("Dealer: " + dealerCard.toString());
+        dealerDeck.add(dealerCard);
+    }
 }
