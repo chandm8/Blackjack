@@ -1,4 +1,28 @@
+package blackjack;
 
+/**
+ * An Enumerator with Clubs, Diamonds, Hearts, and Spades representing the
+ * different suits of cards
+ * @author Chandler Manns
+ * @version 10/1/16
+ *
+ */
 public enum Suit {
-	CLUBS, DIAMONDS, HEARTS, SPADES, OTHER
+    
+    /**
+     * The "Clubs" suit
+     */
+    Clubs,
+    /**
+     * The "Diamonds" suit
+     */
+    Diamonds,
+    /**
+     * The "Hearts" suit
+     */
+    Hearts,
+    /**
+     * The "Spades" suit
+     */
+    Spades;
 }
