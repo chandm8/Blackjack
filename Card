@@ -1,62 +1,69 @@
+package blackjack;
 
+/**
+ * The Card class represents a card with a suit and a numerical value.
+ * @author Chandler Manns
+ * @version 10/1/16
+ */
 public class Card {
 
-	private Suit suit;
-	private int num;
-	
-	/**
-	 * Constructs a card
-	 * @param suit    The suit of the card
-	 * @param num     The number of the card
-	 */
-	public Card(Suit suit, int num) {
-		this.suit = suit;
-		this.num = num;
-		
-	}
-	
-	/**
-	 * Returns the suit of the card
-	 * @return The suit of the card
-	 */
-	public Suit getSuit() {
-		return suit;
-	}
-	
-	/**
-	 * Returns the number of the card
-	 * @return The number of the card
-	 */
-	public int getNumber() {
-		return num;
-	}
-	
-	/**
-	 * Returns a String representation of the Card
-	 * @return The String representation of the Card, containing information
-	 *         about the Card's suit and rank
-	 */
-	public String toString() {
-		
-		StringBuilder stringNum = new StringBuilder();
-		switch(num) {
-		case 1:
-			stringNum.append("Ace");
-			break;
-		case 11:
-			stringNum.append("Jack");
-			break;
-		case 12:
-			stringNum.append("Queen");
-			break;
-		case 13:
-			stringNum.append("King");
-			break;
-		default:
-			stringNum.append(num);
-		}
-		stringNum.append(" of ");
-		stringNum.append(suit.toString());
-		return stringNum.toString();
-	}
+    private Suit suit;
+    private int num;
+    
+    /**
+     * Constructs a card with a suit and a number value 1 to 13 to represent the
+     * real life card values Ace to King.
+     * @param suit    The suit of the card
+     * @param num     The number of the card
+     */
+    public Card(Suit suit, int num) {
+        this.suit = suit;
+        this.num = num;
+        
+    }
+    
+    /**
+     * Returns the suit of the card
+     * @return The suit of the card
+     */
+    public Suit getSuit() {
+        return suit;
+    }
+    
+    /**
+     * Returns the number of the card
+     * @return The number of the card
+     */
+    public int getNumber() {
+        return num;
+    }
+    
+    /**
+     * Returns a String representation of the Card
+     * @return The String representation of the Card, containing information
+     *         about the Card's suit and rank
+     */
+    public String toString() {
+        
+        StringBuilder stringNum = new StringBuilder();
+        switch(num) {
+        case 1:
+            stringNum.append("Ace");
+            break;
+        case 11:
+            stringNum.append("Jack");
+            break;
+        case 12:
+            stringNum.append("Queen");
+            break;
+        case 13:
+            stringNum.append("King");
+            break;
+        default:
+            stringNum.append(num);
+        }
+        stringNum.append(" of ");
+        stringNum.append(suit.toString());
+        return stringNum.toString();
+    }
 }
