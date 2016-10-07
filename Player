@@ -1,0 +1,115 @@
+package blackjack;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ * The Player class represents the person playing the game
+ * @author Chandler Manns
+ * @version 10/3/16
+ */
+public class Player {
+
+    private int playerTotal;
+    private Card playerCard;
+    private Dealer dealer;
+    private Scanner input;
+    private ArrayList<Card> playerDeck;
+    
+    /**
+     * Constructs a new Player that takes in a Dealer and a deck of cards, and
+     * also initializes the total count and current card local variables.
+     * @param dealer        The Dealer that is dealing out cards
+     * @param playerDeck    The player's deck of cards, or "hand"
+     */
+    public Player(Dealer dealer, ArrayList<Card> playerDeck) {
+        
+        this.playerDeck = playerDeck;
+        playerTotal = 0;
+        playerCard = null;
+        this.dealer = dealer;
+        input = new Scanner(System.in);
+    }
+    
+    /**
+     * Returns the player's total.
+     * @return the player's current total amount of points.
+     */
+    public int getPlayerTotal() {
+        return playerTotal;
+    }
+    
+    /**
+     * Calculates the amount of points from a dealt card and updates the total.
+     */
+    public void calculateTotal() {
+        
+        //If the card is an ACE
+        if (playerCard.getNumber() == 1) {
+            
+            boolean rightInput = true;
+            System.out.println("Is the ace going to count as 1 or 11?: ");
+            int aceValue = 0;
+            
+            while (rightInput) {
+                aceValue = input.nextInt();
+                if (aceValue == 1 || aceValue == 11) {
+                    rightInput = true;
+                    playerTotal += aceValue;
+                    break;
+                }
+                else {
+                    System.out.println("Enter 1 or 11.");
+                    rightInput = false;
+                }
+            }
+        }
+        //If the card is a JACK, QUEEN, or KING
+        else if (playerCard.getNumber() > 10) {
+            
+            playerTotal += 10;
+        }
+        //If the number on the card is 2-10
+        else {
+            playerTotal += playerCard.getNumber();
+        }
+    }
+    
+    /**
+     * Displays a String representation of the player's total
+     */
+    public void displayPlayerTotal() {
+        
+        System.out.println("Your total is: " + playerTotal + "\n");
+    }
+    
+    /**
+     * Returns the Player's "hand"
+     * @return the Player's deck of cards, or "hand"
+     */
+    public ArrayList<Card> getHand() {
+        return playerDeck;
+    }
+    
+    /**
+     * Sets the player's total to a new total (used for testing)
+     * @param newTotal    The player's new total
+     */
+    public void setPlayerTotal(int newTotal) {
+        playerTotal = newTotal;
+    }
+    
+    /**
+     * Deals out a card to the Player and adds it to their hand. Also summons 
+     * the calculateTotal() method to update the total and outputs a String
+     * representation of the card that was dealt.
+     * @param playerDeck    The player's deck of card
+     */
+    public void addCard(ArrayList<Card> playerDeck) {
+        
+        playerCard = dealer.deal();
+        System.out.println("You: " + playerCard.toString());
+        calculateTotal();
+        playerDeck.add(playerCard);
+    }
+}
