@@ -1,0 +1,19 @@
+package blackjack;
+
+/**
+ * The ProjectRunner class runs the game of Blackjack
+ * @author Chandler Manns
+ * @version 10/5/16
+ */
+public class ProjectRunner {
+
+    /**
+     * Main method creates a new GameSimulation which starts the game.
+     * @param args
+     */
+    public static void main(String[] args) {
+        
+        new GameSimulation();
+    }
+
+}
