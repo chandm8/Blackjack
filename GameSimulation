@@ -1,0 +1,139 @@
+package blackjack;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ * The GameSimulation class simulates a game of Blackjack between a Player and
+ * a Dealer
+ * @author Chandler Manns
+ * @version 10/5/16
+ */
+public class GameSimulation {
+    
+    private ArrayList<Card> deck;
+    private ArrayList<Card> playerDeck;
+    private ArrayList<Card> dealerDeck;
+    private Dealer dealer;
+    private Player player;
+    private boolean playerBust;
+    private boolean dealerBust;
+    private Scanner input;
+    
+    public GameSimulation() {
+        
+        deck = new ArrayList<Card>();
+        playerDeck = new ArrayList<Card>();
+        dealerDeck = new ArrayList<Card>();
+        deck = generateDeck();
+        dealer = new Dealer(deck, dealerDeck);
+        player = new Player(dealer, playerDeck);
+        input = new Scanner(System.in);
+        playerBust = false;
+        playerBust = false;
+        
+        simulate();
+    }
+
+    public ArrayList<Card> generateDeck() {
+        
+        for (int i = 0; i < 4; i++) {
+            for (int j = 1; j < 14; j++) {
+                deck.add(new Card(Suit.values()[i], j));
+            }
+        }
+        return deck;
+    }
+    
+    public void simulate() {
+        
+        boolean done = false;
+        boolean incorrectInput = false;
+        
+        player.addCard(playerDeck);
+        dealer.addCard(dealerDeck);
+        player.addCard(playerDeck);
+        dealer.addCard(dealerDeck);
+        System.out.println();
+        dealer.displayDealerTotal();
+        player.displayPlayerTotal();
+        
+        if (player.getPlayerTotal() == 21 || dealer.getDealerTotal() == 21) {
+            done = true;
+        }
+        else {
+            checkIfBust();
+        }
+        
+        while (!done && !dealerBust && !playerBust) {
+            
+            System.out.println("Enter 1 to hit or 2 to stand: ");
+            String decision = input.next();
+            if (decision.equals("1")) {
+                player.addCard(playerDeck);
+                player.displayPlayerTotal();
+            }
+            else if (decision.equals("2")) {
+                done = true;
+            }
+            else {
+                System.out.println("Incorrect input");
+                incorrectInput = true;
+            }
+            
+            if (!incorrectInput) {
+                if (dealer.getDealerTotal() < 17) {
+                    dealer.addCard(dealerDeck);
+                    dealer.displayDealerTotal();
+                }
+                checkIfBust();
+            }
+            else {
+                incorrectInput = false;
+            }
+        }
+        
+        determineOutcome();
+    }
+    
+    public void checkIfBust() {
+        
+        if (player.getPlayerTotal() > 21) {
+            playerBust = true;
+            if (dealer.getDealerTotal() > 21) {
+                dealerBust = true;
+            }
+        }
+        else if (dealer.getDealerTotal() > 21) {
+            dealerBust = true;
+        }
+    }
+    
+    /**
+     * Determines the outcome of the game
+     */
+    public void determineOutcome() {
+        
+        if (dealerBust && playerBust) {
+            System.out.print("You both go bust.\nThe Dealer wins.");
+        }
+        else if (playerBust) {
+            System.out.print("You go bust.\nThe Dealer wins.");
+        }
+        else if (dealerBust) {
+            System.out.print("The Dealer goes bust.\nYou win!");
+        }
+        else if (player.getPlayerTotal() > dealer.getDealerTotal()) {
+            System.out.print("You have the higher score.\nYou win!.");
+        }
+        else if (player.getPlayerTotal() < dealer.getDealerTotal()) {
+            System.out.print("The Dealer has the higher score.\nThe Dealer wins.");
+        }
+        else if (player.getPlayerTotal() == dealer.getDealerTotal()) {
+            System.out.print("You have the same score as the Dealer.\nYou tie.");
+        }
+        else if (player.getPlayerTotal() == dealer.getDealerTotal()) {
+            System.out.print("You have the same score as the dealer.\nYou tie.");
+        }
+    }
+}
